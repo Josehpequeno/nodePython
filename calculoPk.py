@@ -71,11 +71,9 @@ logn = []
 alpha = (math.log(min) - media)/desvio
 pk = round(I(alpha), 3)
 logn.append(pk)
-pks = {}
-str = "Pk({} < Z) = {}".format(min, pk)
-t = 0
-pks["{}".format(t)] = [str, pk]
-t += 1
+pks = []
+str = "Pk({} < Z)".format(min)
+pks.append(str)
 soma = round((pk+soma), 3)
 while(a < max):
     m = round(a-0.001, 3)
@@ -90,21 +88,19 @@ while(a < max):
     logn.append(pk)
     soma = round((pk+soma), 3)
     if(b != max):
-        str = "Pk({} <= Z < {}) = {}".format(a, b, pk)
-        pks["{}".format(t)] = [str, pk]
-        t += 1
+        str = "Pk({} <= Z < {})".format(a, b)
+        pks.append(str)
     else:
-        str = "Pk({} <= Z <= {}) = {}".format(a, b, pk)
-        pks["{}".format(t)] = [str, pk]
-        t += 1
+        str = "Pk({} <= Z <= {})".format(a, b)
+        pks.append(str)
     a = round(a+h, 3)
     b = round(b+h, 3)
 
 beta = (math.log(max) - media)/desvio
 pk = round(1-I(beta), 3)
 logn.append(pk)
-str = "Pk({} > Z) = {}".format(max, pk)
-pks["{}".format(t)] = [str, pk]
+str = "Pk({} > Z)".format(max)
+pks.append(str)
 soma = round((pk+soma), 3)
 data["Soma_dos_valores_pks"] = soma
 d = {"Pk": logn}
