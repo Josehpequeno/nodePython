@@ -17,7 +17,7 @@ module.exports = () => {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
-    consign().include('rotas').into(app);
+    consign().include('routes').into(app);
     app.use(compression);//compactação gzip.
     return app;
 };
