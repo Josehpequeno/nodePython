@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head/>
+  <body>
+    <input type="hidden" id="data" name="data" value=`${data.dados}`/>
+    <input type="hidden" id="string" name="string" value=`${data.strings}`/>
+    <div id="container" style="width: 1000px; height: 500px;"/>
+    <script src="/static/jquery/jquery.min.js"/>
+    <script src="/static/js/anychart-base.min.js" type="text/javascript"/>
+    <!--<script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>-->
+    <script>
+      anychart.onDocumentLoad(function () {
+        // create an instance of a pie chart
+      var $box = $("input#data");
+      data = $box.val();
+      var $box = $("input#string");
+      string = $box.val();
+      string = string.split(',');
+      data = data.split(',');
+      var dados = [];
+      var array = [];
+      console.log("data:", data);
+      console.log("string", string);
+      for(var x = 0; x < data.length ; x++){
+        array = [string[x],data[x]];
+        dados.push(array);
+      }
+      console.log(dados);
+      chart = anychart.column();
+      chart.title("Pks - LogNormal");
+      
+      chart.dataArea().background().enabled(true);
+      chart.dataArea().background().fill("#665B59 0.2");
+      var series = chart.column(dados);
+      chart.container("container");
+      chart.draw();
+
+    });
+  </script>
+  </body>
+</html>
