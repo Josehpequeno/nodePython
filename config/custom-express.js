@@ -12,6 +12,7 @@ module.exports = () => {
     const app = express();
     app.use(marko());
     app.use('/static', express.static('public'));
+    app.use('/nd_md', express.static('node_modules'));
     //app.use(express.static('public'));
 
     app.use(bodyParser.urlencoded({ extended: true }));

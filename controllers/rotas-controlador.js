@@ -32,16 +32,13 @@ class RotasControlador {
                     dataToSend = dataToSend.split(";");
                 }
             }
+            let aux = [];
+            dataToSend.forEach(element => {
+                element = element.replace(/,/,'.');//tratando floats com virgula.
+                aux.push(element);
+            });
+            dataToSend = aux;
             console.log(dataToSend);
-            /*
-            while (dataToSend.length == 1) {
-                aux = dataToSend.split(" ");
-                if (aux.length > 1) {
-                    dataToSend = aux;
-                }
-                p++;
-            }*/
-            //var dataToSend = [15, 20, 43, 45, 6, 8, 90, 12];
             let pyshell = new PythonShell('calculoPk.py');
 
             let data = [];
@@ -55,13 +52,7 @@ class RotasControlador {
                 x = message["strings"];
                 var count = Object.keys(x).length;
                 data = message["Pks"];
-                /*let array;
-                for (var i = 0; i < count; i++) {
-                    var str = i.toString();
-                    var t = x[str];
-                    array = [t[0], t[1]];
-                    data.push(array);
-                }*/
+
             });
             // end the input stream and allow the process to exit
             pyshell.end(function (err, code, signal) {
