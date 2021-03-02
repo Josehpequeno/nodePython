@@ -7,39 +7,67 @@
     <link href="/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/static/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
     <link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="static/css/textarea.css"/>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-width: 250px;
+        background-color: #4C4C4C;
+        font-family: "Roboto", sans-serif;
+      }
+    </style>
   </head>
   <body>
-    <form action="/graph" method="post">
-      <div class="form-group">
-        <textarea name="story" id="story" class="materialize-textarea form-control" data-length="120">
+    <div class="container">
+      <div class="card">
+        <div class="card-header">header</div>
+        <div class="card-body container " align="center">
+          <div class="col-md-6 w-75 p-3 h-100 d-inline-block">
+            <form action="/graph" method="post">
+              <div class="form-group">
+                <textarea name="story" id="story" class="form-control" aria-label="With textarea">
                 </textarea>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Enviar</button>
-      </div>
-      <div class="col-md-8">
-        <p>
-          <strong>Tipo de separador</strong>
-        </p>
-        <div class="input-group-prepend">
-          <label class="container1">
-            <input onchange="box(this.checked);" id="ponto_virgula" type="checkbox" class="radio" value="ponto_virgula" name="fooby[1][]" checked="true"/>
-            <span class="checkmark"/>
-            ;
-          </label>
-          <label class="container1">
-            <input onchange="box(this.checked);" id="virgula" type="checkbox" class="radio" value="virgula" name="fooby[1][]"/>
-            <span class="checkmark"/>
-            ,
-          </label>
-          <label class="container1">
-            <input onchange="box(this.checked);" id="espaco" type="checkbox" class="radio" value="espaco" name="fooby[1][]"/>
-            <span class="checkmark"/>
-            Espaço
-          </label>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+              </div>
+              <div class="col col align-self-start">
+                <p align="left">
+                  <strong>Tipo de separador</strong>
+                </p>
+                <div class="input-group-prepend row">
+                  <div class="col">
+                    <label class="container1">
+                      <input onchange="box(this.checked);" id="ponto_virgula" type="checkbox" class="radio" value="ponto_virgula" name="fooby[1][]" checked="true"/>
+                      <span class="checkmark"/>
+                      ;
+                    </label>
+                  </div>
+                  <div class="col">
+                    <label class="container1">
+                      <input onchange="box(this.checked);" id="virgula" type="checkbox" class="radio" value="virgula" name="fooby[1][]"/>
+                      <span class="checkmark"/>
+                      ,
+                    </label>
+                  </div>
+                  <div class="col">
+                    <label class="container1">
+                      <input onchange="box(this.checked);" id="espaco" type="checkbox" class="radio" value="espaco" name="fooby[1][]"/>
+                      <span class="checkmark"/>
+                      Espaço
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
+        <div class="card-footer text-muted">footer</div>
       </div>
-    </form>
+    </div>
     <script src="/nd_md/jquery/dist/jquery.min.js"/>
     <script src="/nd_md/bootstrap/dist/js/bootstrap.min.js"/>
     <script src="/nd_md/jquery/dist/jquery.slim.min.js"/>

@@ -23,7 +23,7 @@ class RotasControlador {
             let escolha = req.body.fooby[0][0];
             if (escolha == "espaco") {
                 dataToSend = dataToSend.split(" ");
-            } else{
+            } else {
                 //dataToSend = String(dataToSend).join(" ");
                 if (escolha == "virgula") {
                     dataToSend = dataToSend.split(",");
@@ -34,8 +34,10 @@ class RotasControlador {
             }
             let aux = [];
             dataToSend.forEach(element => {
-                element = element.replace(/,/,'.');//tratando floats com virgula.
-                aux.push(element);
+                element = element.replace(/,/, '.');//tratando floats com virgula.
+                if (element != "") {
+                    aux.push(element);
+                }
             });
             dataToSend = aux;
             console.log(dataToSend);
