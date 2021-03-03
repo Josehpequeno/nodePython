@@ -6,7 +6,8 @@ class RotasControlador {
     static rotas() {
         return {
             graph: '/graph',
-            home: '/'
+            home: '/',
+            upload: "/upload"
         };
     }
 
@@ -24,7 +25,6 @@ class RotasControlador {
             if (escolha == "espaco") {
                 dataToSend = dataToSend.split(" ");
             } else {
-                //dataToSend = String(dataToSend).join(" ");
                 if (escolha == "virgula") {
                     dataToSend = dataToSend.split(",");
                 }
@@ -52,7 +52,6 @@ class RotasControlador {
                 console.log(message);
                 console.log("Numero gerado randomicamente: ", message["Numero_gerado_randomicamente"])
                 x = message["strings"];
-                var count = Object.keys(x).length;
                 data = message["Pks"];
 
             });
@@ -69,6 +68,27 @@ class RotasControlador {
                 });
             });
 
+        };
+    }
+    upload() {
+        return function (req, resp) {
+            console.log("body ", req.body);
+            console.log("dir", ".." + __dirname);
+            //var formidable = require('formidable');
+            var fs = require('fs');
+            var util = require('util');
+            const formidable = require('formidable');
+
+            const form = formidable({ multiples: true, uploadDir: "./"});
+
+            form.parse(req, (err, fields, files) => {
+                console.log(fields, files);
+                if (err) {
+                    next(err);
+                    return;
+                }
+                resp.json({ fields, files });
+            });
         };
     }
 }
