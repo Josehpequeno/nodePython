@@ -12,9 +12,10 @@ function python(resp, dataToSend) {
         // received a message sent from the Python script (a simple "print" statement)
         message = JSON.parse(message)
         console.log(message);
-        console.log("Numero gerado randomicamente: ", message["Numero_gerado_randomicamente"])
+        console.log("Numero gerado randomicamente: ", message["N_g_r"])
         x = message["strings"];
         data = message["Pks"];
+        random = message["N_g_r"];
 
     });
     // end the input stream and allow the process to exit
@@ -26,7 +27,8 @@ function python(resp, dataToSend) {
         console.log("Data:", data);
         return resp.status(200).marko(templates.graph, {
             dados: data,
-            strings: x
+            strings: x,
+            random: random
         });
     });
 }
@@ -108,15 +110,18 @@ class RotasControlador {
                 fs.createReadStream('dados.csv')
                     .pipe(parse({ delimiter: ' ' || ';' }))
                     .on('data', function (csvrow) {
-                        console.log(csvrow);
+                        console.log(!isNaN(csvrow));
                         //do something with csvrow
-                        csvData.push(String(csvrow).replace(/,/, '.'));
+                        if (!isNaN(csvrow)) {
+                            csvData.push(String(csvrow).replace(/,/, '.'));
+                        }
                     })
                     .on('end', function () {
                         //do something with csvData
                         console.log(csvData);
+                        return python(resp, csvData);
                     });
-                return python(resp, csvData);
+                
             });
         };
     }

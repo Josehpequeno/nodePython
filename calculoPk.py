@@ -24,7 +24,7 @@ def main():
     lines = read_in()
 
     # Sum  of all the items in the providen array
-    total_sum_inArray = 0
+    #total_sum_inArray = 0
     array = []
     for item in lines:
         array.append(float(item))
@@ -108,8 +108,19 @@ data["Pks"] = logn
 data["strings"] = pks
 dt = pd.DataFrame(data=d)
 #data["Data"] = dt
-s = np.random.lognormal(media, desvio, 1)
-data["Numero_gerado_randomicamente"] = s[0]
+p1 = np.random.lognormal(media, desvio, 1)
+p2 = np.random.lognormal(media, desvio, 1)
+p3 = np.random.lognormal(media, desvio, 1)
+p4 = np.random.lognormal(media, desvio, 1)
+p5 = np.random.lognormal(media, desvio, 1)
+data["N_g_r"] = [p1[0],p2[0],p3[0],p4[0],p5[0]]
+#p1 = np.random.lognormal(media, desvio, 200)
+#p2 = np.random.lognormal(media, desvio, 200)
+#p3 = np.random.lognormal(media, desvio, 200)
+#p1 = [p1.max(), p1.mean(),p1.min()]
+#p2 = [p2.max(), p2.mean(),p2.min()]
+#p3 = [p3.max(), p3.mean(),p3.min()]
+#data["N_g_r"] = [p1,p2,p3]
 #print(json.dumps(pks))
 print(json.dumps(data))
 '''plt.title('Histograma de Pk', fontsize=20)
