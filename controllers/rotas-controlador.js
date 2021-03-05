@@ -16,6 +16,7 @@ function python(resp, dataToSend) {
         x = message["strings"];
         data = message["Pks"];
         random = message["N_g_r"];
+        entrada = message["Entrada"];
 
     });
     // end the input stream and allow the process to exit
@@ -28,7 +29,8 @@ function python(resp, dataToSend) {
         return resp.status(200).marko(templates.graph, {
             dados: data,
             strings: x,
-            random: random
+            random: random,
+            entrada: entrada
         });
     });
 }

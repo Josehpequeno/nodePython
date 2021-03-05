@@ -13,6 +13,35 @@ def I(x):
     return b
 
 
+def cal_media(x):
+    soma = 0
+    count = len(x)
+    for i in range(0, count):
+        soma += math.log(x[i])
+    media_mov = soma/count
+    return media_mov
+
+
+def cal_desvio(x, media_mov):
+    soma = 0
+    count = len(x)
+    for i in range(0, count):
+        soma += (math.log(x[i]) - media_mov)**2
+    desvio_mov = (soma/count)**(0.5)
+    return desvio_mov
+
+
+def getValor(p1):
+    media_mov = cal_media([p1])
+    desvio_mov = cal_desvio([p1], media_mov)
+    mov = np.random.lognormal(media, desvio, 100)
+    media_mov = cal_media(mov)
+    desvio_mov = cal_desvio(mov, media_mov)
+    valor = np.random.lognormal(media_mov, desvio_mov, 1)
+    valor = ((valor[0]-p1)/abs(valor[0]-p1))*valor[0]
+    return valor
+
+
 def read_in():
     lines = sys.stdin.readlines()
     # Since our input would only be having one line, parse our JSON data from that
@@ -24,7 +53,7 @@ def main():
     lines = read_in()
 
     # Sum  of all the items in the providen array
-    #total_sum_inArray = 0
+    # total_sum_inArray = 0
     array = []
     for item in lines:
         array.append(float(item))
@@ -50,6 +79,7 @@ for i in df.index:
     soma += ((math.log(float(df['Valor'][i]))) - media)**2
 desvio = (soma/count)**(0.5)
 data = {}
+data["Entrada"] = a
 data["Media"] = media
 data["Desvio"] = desvio
 
@@ -107,21 +137,22 @@ d = {"Pk": logn}
 data["Pks"] = logn
 data["strings"] = pks
 dt = pd.DataFrame(data=d)
-#data["Data"] = dt
-p1 = np.random.lognormal(media, desvio, 1)
-p2 = np.random.lognormal(media, desvio, 1)
-p3 = np.random.lognormal(media, desvio, 1)
-p4 = np.random.lognormal(media, desvio, 1)
-p5 = np.random.lognormal(media, desvio, 1)
-data["N_g_r"] = [p1[0],p2[0],p3[0],p4[0],p5[0]]
-#p1 = np.random.lognormal(media, desvio, 200)
-#p2 = np.random.lognormal(media, desvio, 200)
-#p3 = np.random.lognormal(media, desvio, 200)
-#p1 = [p1.max(), p1.mean(),p1.min()]
-#p2 = [p2.max(), p2.mean(),p2.min()]
-#p3 = [p3.max(), p3.mean(),p3.min()]
-#data["N_g_r"] = [p1,p2,p3]
-#print(json.dumps(pks))
+# data["Data"] = dt
+p1 = df['Valor'][0]
+valor = getValor(p1)
+p2 = p1 + (valor/p1)
+valor = getValor(p2)
+p3 = p2 + (valor/p2)
+valor = getValor(p3)
+p4 = p3 + (valor/p3)
+valor = getValor(p4)
+p5 = p4 + (valor/p4)
+# p2 = np.random.lognormal(media, desvio, 1)
+# p3 = np.random.lognormal(media, desvio, 1)
+# p4 = np.random.lognormal(media, desvio, 1)
+# p5 = np.random.lognormal(media, desvio, 1)
+data["N_g_r"] = [p1, p2, p3, p4, p5]
+# print(json.dumps(pks))
 print(json.dumps(data))
 '''plt.title('Histograma de Pk', fontsize=20)
 plt.xlabel('Pk', fontsize=15)

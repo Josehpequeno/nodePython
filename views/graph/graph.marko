@@ -5,7 +5,9 @@
     <input type="hidden" id="data" name="data" value=`${data.dados}`/>
     <input type="hidden" id="random" name="random" value=`${data.random}`/>
     <input type="hidden" id="string" name="string" value=`${data.strings}`/>
-    <div id="container" style="width: 1000px; height: 500px;"/>
+    <input type="hidden" id="entrada" name="entrada" value=`${data.entrada}`/>
+    <div id="container2" style="width: 100%; height: 400px;"/>
+    <div id="container" style="width: 100%; height: 600px;"/>
     <script src="/static/jquery/jquery.min.js"/>
     <script src="/static/js/anychart-base.min.js" type="text/javascript"/>
     <a href="/" class="btn btn-primary">
@@ -15,15 +17,19 @@
     <script>
       anychart.onDocumentLoad(function () {
         // create an instance of a pie chart
-      var $box3 = $("input#random");
-      random = $box3.val();
+      
       var $box = $("input#data");
-      data = $box.val();
+      var data = $box.val();
       var $box2 = $("input#string");
-      string = $box2.val();
+      var string = $box2.val();
+      var $box3 = $("input#random");
+      var random = $box3.val();
+      var $box4 = $("input#entrada");
+      var entrada = $box4.val();
       string = string.split(',');
       data = data.split(',');
       random = random.split(',');
+      entrada = entrada.split(',');
       var dados = [];
       var array = [];
       console.log("data:", data);
@@ -39,8 +45,9 @@
       chart.dataArea().background().enabled(true);
       chart.dataArea().background().fill("#665B59 0.2");
       var series = chart.column(dados);
-      chart.container("container");
+      chart.container("container2");
       chart.draw();
+      
       string = ["P1","P2","P3","P2novo", "P3novo"];
       array = [];
       dados = [];
@@ -48,13 +55,41 @@
         array = [string[x],random[x]];
         dados.push(array);
       }
-      console.log(dados);
-      
+      array = [];
+      var dados2 = []; 
+      var ctrl = entrada.length/5;
+      var z = 0;
+      var p = 0;
+      for(var x = 0; x < entrada.length ; x++){
+        if(x == z){
+          array = [string[p],entrada[x]];
+          p++;
+          z += ctrl;
+          if (z > entrada.length){
+            z = entrada.length;
+          }
+        } else {
+          array = [`valor ${x}`, entrada[x]];
+        }
+        dados2.push(array);
+      }
+      dados = anychart.data.set(dados);
+      dados2 = anychart.data.set(dados2);
+      dados2 = dados2.mapAs({x: 0, value: 1});
+      dados = dados.mapAs({x: 0, value: 2});
       chart = anychart.line();
+      chart.interactivity().hoverMode("single");
       chart.title("Pontos");
       chart.dataArea().background().enabled(true);
       chart.dataArea().background().fill("#665B59 0.2");
+      var series2 = chart.line(dados2);
+      series2.normal().stroke("#00cc99");
+      series2.hovered().stroke("#00cc99", 2);
+      series2.selected().stroke("#00cc99", 4);
       var series = chart.line(dados);
+      series.normal().stroke("#0066cc", 1, "10 5", "round");
+      series.hovered().stroke("#0066cc", 2, "10 5", "round");
+      series.selected().stroke("#0066cc", 4, "10 5", "round");
       chart.container("container");
       chart.draw();
 
