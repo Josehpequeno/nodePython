@@ -34,7 +34,7 @@ def cal_desvio(x, media_mov):
 def getValor(p1):
     media_mov = cal_media([p1])
     desvio_mov = cal_desvio([p1], media_mov)
-    mov = np.random.lognormal(media, desvio, 100)
+    mov = np.random.lognormal(media, desvio, 500)
     media_mov = cal_media(mov)
     desvio_mov = cal_desvio(mov, media_mov)
     valor = np.random.lognormal(media_mov, desvio_mov, 1)
@@ -139,14 +139,22 @@ data["strings"] = pks
 dt = pd.DataFrame(data=d)
 # data["Data"] = dt
 p1 = df['Valor'][0]
-valor = getValor(p1)
-p2 = p1 + (valor/p1)
-valor = getValor(p2)
-p3 = p2 + (valor/p2)
-valor = getValor(p3)
-p4 = p3 + (valor/p3)
-valor = getValor(p4)
-p5 = p4 + (valor/p4)
+while True:
+    valor = getValor(p1)
+    p2 = p1 + (valor/p1)
+    valor = getValor(p2)
+    p3 = p2 + (valor/p2)
+    if((p2 > p1 and p3>p2) or (p1 > p2 and p2 > p3)):
+        continue
+    valor = getValor(p3)
+    p4 = p3 + (valor/p3)
+    if((p3 > p2 and p4>p3) or (p2 > p3 and p3 > p4)):
+        continue
+    valor = getValor(p4)
+    p5 = p4 + (valor/p4)
+    if((p4 > p3 and p5>p4) or (p3 > p4 and p4 > p5)):
+        continue
+    break
 # p2 = np.random.lognormal(media, desvio, 1)
 # p3 = np.random.lognormal(media, desvio, 1)
 # p4 = np.random.lognormal(media, desvio, 1)
