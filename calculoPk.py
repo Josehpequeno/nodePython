@@ -15,6 +15,12 @@ def I(x):
 
 def cal_media(x):
     soma = 0
+    aux = []
+    aux = arquivo
+    print(aux)
+    aux.append(x[0])
+    aux.append(x[1])
+    x = aux
     count = len(x)
     for i in range(0, count):
         soma += math.log(x[i])
@@ -31,14 +37,21 @@ def cal_desvio(x, media_mov):
     return desvio_mov
 
 
-def getValor(p1):
-    media_mov = cal_media([p1])
-    desvio_mov = cal_desvio([p1], media_mov)
-    mov = np.random.lognormal(media, desvio, 500)
+def getValor(p0,p1):
+    media_mov = cal_media([p0,p1])
+    desvio_mov = cal_desvio([p0,p1], media_mov)
+    mov = np.random.lognormal(media_mov, desvio_mov, 500)
     media_mov = cal_media(mov)
     desvio_mov = cal_desvio(mov, media_mov)
     valor = np.random.lognormal(media_mov, desvio_mov, 1)
     valor = ((valor[0]-p1)/abs(valor[0]-p1))*valor[0]
+    if(valor > 0):
+        print(1)
+        valor = valor-p1
+    else:
+        print(-1)
+        valor = (p1 - abs(valor))*(-1)
+    print(valor)
     return valor
 
 
@@ -63,10 +76,9 @@ def main():
 
 # Start process
 if __name__ == '__main__':
-    a = main()
+    arquivo = main()
 
-df = pd.DataFrame(a, columns=['Valor'])
-
+df = pd.DataFrame(arquivo, columns=['Valor'])
 soma = 0
 count = df['Valor'].count()
 for i in df.index:
@@ -79,7 +91,7 @@ for i in df.index:
     soma += ((math.log(float(df['Valor'][i]))) - media)**2
 desvio = (soma/count)**(0.5)
 data = {}
-data["Entrada"] = a
+data["Entrada"] = arquivo
 data["Media"] = media
 data["Desvio"] = desvio
 
@@ -140,19 +152,19 @@ dt = pd.DataFrame(data=d)
 # data["Data"] = dt
 p1 = df['Valor'][0]
 while True:
-    valor = getValor(p1)
-    p2 = p1 + (valor/p1)
-    valor = getValor(p2)
-    p3 = p2 + (valor/p2)
-    if((p2 > p1 and p3>p2) or (p1 > p2 and p2 > p3)):
+    valor = getValor(p1,p1)
+    p2 = p1 + valor
+    valor = getValor(p1,p2)
+    p3 = p2 + valor
+    if((p2 > p1 and p3 > p2) or (p1 > p2 and p2 > p3)):
         continue
-    valor = getValor(p3)
-    p4 = p3 + (valor/p3)
-    if((p3 > p2 and p4>p3) or (p2 > p3 and p3 > p4)):
+    valor = getValor(p2,p3)
+    p4 = p3 + valor
+    if((p3 > p2 and p4 > p3) or (p2 > p3 and p3 > p4)):
         continue
-    valor = getValor(p4)
-    p5 = p4 + (valor/p4)
-    if((p4 > p3 and p5>p4) or (p3 > p4 and p4 > p5)):
+    valor = getValor(p3,p4)
+    p5 = p4 + valor
+    if((p4 > p3 and p5 > p4) or (p3 > p4 and p4 > p5)):
         continue
     break
 # p2 = np.random.lognormal(media, desvio, 1)
