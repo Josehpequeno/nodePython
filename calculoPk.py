@@ -15,12 +15,6 @@ def I(x):
 
 def cal_media(x):
     soma = 0
-    aux = []
-    aux = arquivo
-    print(aux)
-    aux.append(x[0])
-    aux.append(x[1])
-    x = aux
     count = len(x)
     for i in range(0, count):
         soma += math.log(x[i])
@@ -37,20 +31,29 @@ def cal_desvio(x, media_mov):
     return desvio_mov
 
 
-def getValor(p0,p1):
+def getValor(p0, p1, array):
+    #arquivo.append(p0)
+    array.append(p1)
+    print(array)
     media_mov = cal_media([p0,p1])
     desvio_mov = cal_desvio([p0,p1], media_mov)
-    mov = np.random.lognormal(media_mov, desvio_mov, 500)
-    media_mov = cal_media(mov)
-    desvio_mov = cal_desvio(mov, media_mov)
-    valor = np.random.lognormal(media_mov, desvio_mov, 1)
-    valor = ((valor[0]-p1)/abs(valor[0]-p1))*valor[0]
-    if(valor > 0):
+    #print(cal_desvio([p1],cal_media([p1])))
+    #mov = np.random.lognormal(media, desvio, 500)
+    #media_mov = cal_media(mov)
+    #desvio_mov = cal_desvio(mov, media_mov)
+    valor = 0
+    if p0 > p1:
+        while p1 + valor < p0:
+            valor = np.random.lognormal(abs(media-media_mov), abs(desvio-desvio_mov), 1)
+            #valor = ((valor[0]-p1)/abs(valor[0]-p1))*valor[0]
+    #if(media > media_mov):
+            valor = valor[0]
         print(1)
-        valor = valor-p1
     else:
+        while p1 + valor > p0:
+            valor = np.random.lognormal(abs(media-media_mov), abs(desvio-desvio_mov), 1)
+            valor = valor[0]*(-1)
         print(-1)
-        valor = (p1 - abs(valor))*(-1)
     print(valor)
     return valor
 
@@ -152,17 +155,22 @@ dt = pd.DataFrame(data=d)
 # data["Data"] = dt
 p1 = df['Valor'][0]
 while True:
-    valor = getValor(p1,p1)
+    #aux = arquivo.copy()
+    aux = []
+    valor = getValor(math.exp(media), p1, aux)
     p2 = p1 + valor
-    valor = getValor(p1,p2)
+    #aux = [p1]
+    #aux.pop()
+    #print(aux)
+    valor = getValor(p1, p2, aux)
     p3 = p2 + valor
     if((p2 > p1 and p3 > p2) or (p1 > p2 and p2 > p3)):
         continue
-    valor = getValor(p2,p3)
+    valor = getValor(p2, p3, aux)
     p4 = p3 + valor
     if((p3 > p2 and p4 > p3) or (p2 > p3 and p3 > p4)):
         continue
-    valor = getValor(p3,p4)
+    valor = getValor(p3, p4, aux)
     p5 = p4 + valor
     if((p4 > p3 and p5 > p4) or (p3 > p4 and p4 > p5)):
         continue

@@ -112,7 +112,7 @@ class RotasControlador {
                 fs.createReadStream('dados.csv')
                     .pipe(parse({ delimiter: ' ' || ';' }))
                     .on('data', function (csvrow) {
-                        console.log(!isNaN(csvrow));
+                        //console.log(!isNaN(csvrow));
                         //do something with csvrow
                         if (!isNaN(csvrow)) {
                             csvData.push(String(csvrow).replace(/,/, '.'));
@@ -120,7 +120,7 @@ class RotasControlador {
                     })
                     .on('end', function () {
                         //do something with csvData
-                        console.log(csvData);
+                        //console.log(csvData);
                         return python(resp, csvData);
                     });
                 
