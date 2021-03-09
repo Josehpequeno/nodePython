@@ -34,7 +34,8 @@ def cal_desvio(x, media_mov):
 def getValor(p0, p1, array):
     #arquivo.append(p0)
     array.append(p1)
-    print(array)
+    #print(array)
+    #print(p0)
     media_mov = cal_media([p0,p1])
     desvio_mov = cal_desvio([p0,p1], media_mov)
     #print(cal_desvio([p1],cal_media([p1])))
@@ -43,16 +44,19 @@ def getValor(p0, p1, array):
     #desvio_mov = cal_desvio(mov, media_mov)
     valor = 0
     if p0 > p1:
-        while p1 + valor < p0:
-            valor = np.random.lognormal(abs(media-media_mov), abs(desvio-desvio_mov), 1)
+        while valor <= p0:
+            valor = np.random.lognormal(media_mov, desvio_mov, 1)
             #valor = ((valor[0]-p1)/abs(valor[0]-p1))*valor[0]
     #if(media > media_mov):
             valor = valor[0]
+            print(valor)
         print(1)
     else:
-        while p1 + valor > p0:
-            valor = np.random.lognormal(abs(media-media_mov), abs(desvio-desvio_mov), 1)
-            valor = valor[0]*(-1)
+        valor = -1
+        while valor >= p1 or valor <= p0:
+            valor = np.random.lognormal(media_mov, desvio_mov, 1)
+            valor = valor[0]
+            print(valor)
         print(-1)
     print(valor)
     return valor
@@ -155,24 +159,31 @@ dt = pd.DataFrame(data=d)
 # data["Data"] = dt
 p1 = df['Valor'][0]
 while True:
-    #aux = arquivo.copy()
-    aux = []
+    aux = arquivo.copy()
+    #aux = []
     valor = getValor(math.exp(media), p1, aux)
-    p2 = p1 + valor
-    #aux = [p1]
+    p2 = valor
+    aux = [p1]
     #aux.pop()
     #print(aux)
     valor = getValor(p1, p2, aux)
-    p3 = p2 + valor
+    p3 = valor
+    print([p1,p2,p3])
+    #print(valor)
     if((p2 > p1 and p3 > p2) or (p1 > p2 and p2 > p3)):
+        print(2)
         continue
     valor = getValor(p2, p3, aux)
-    p4 = p3 + valor
+    p4 = valor
+    print([p1,p2,p3,p4])
     if((p3 > p2 and p4 > p3) or (p2 > p3 and p3 > p4)):
+        print(3)
         continue
     valor = getValor(p3, p4, aux)
-    p5 = p4 + valor
+    p5 = valor
+    print([p1,p2,p3,p4,p5])
     if((p4 > p3 and p5 > p4) or (p3 > p4 and p4 > p5)):
+        print(4)
         continue
     break
 # p2 = np.random.lognormal(media, desvio, 1)

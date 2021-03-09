@@ -79,9 +79,7 @@ class RotasControlador {
     }
     upload() {
         return function (req, resp) {
-            console.log("body ", req.body);
-            console.log("dir", ".." + __dirname);
-            //var formidable = require('formidable');
+            //console.log("dir", ".." + __dirname);
             const fs = require('fs');
             const formidable = require('formidable');
             const neatCsv = require('neat-csv');
