@@ -1,8 +1,6 @@
 import math
 import pandas as pd
 import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 import sys
 import json
 
@@ -88,6 +86,7 @@ if __name__ == '__main__':
 df = pd.DataFrame(arquivo, columns=['Valor'])
 soma = 0
 count = df['Valor'].count()
+print(df)
 for i in df.index:
     soma += math.log(float(df['Valor'][i]))
 media = soma/count
