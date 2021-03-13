@@ -13,7 +13,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@marko/express": "^1.0.0",
-    "anychart-nodejs": "^1.3.8",
+    "anychart-nodejs": "^1.2.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
     "compression": "^1.7.4",
