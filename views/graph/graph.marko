@@ -9,13 +9,15 @@
     <div id="container2" style="width: 100%; height: 400px;"/>
     <!-- <div id="container" style="width: 100%; height: 600px;"/> -->
     <div id="container3" style="width: 100%; height: 600px;"/>
-    <a href="/" class="btn btn-primary">
+    <form action="/recalcular" method="post">
+        <button class="btn btn-secundary">recalcular</button>
+    </form>
+    <a href="/">
       <button class="btn btn-primary">voltar</button>
     </a>
-    
     <script src="/static/jquery/jquery.min.js"/>
     <script src="/static/js/anychart-base.min.js" type="text/javascript"/>
-     <!--<script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>-->
+    <!--<script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>-->
     <script>
       anychart.onDocumentLoad(function () {
         // create an instance of a pie chart

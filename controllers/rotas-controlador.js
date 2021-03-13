@@ -40,7 +40,8 @@ class RotasControlador {
         return {
             graph: '/graph',
             home: '/',
-            upload: '/upload'
+            upload: '/upload',
+            recalcular: '/recalcular'
         };
     }
 
@@ -121,9 +122,42 @@ class RotasControlador {
                         //console.log(csvData);
                         return python(resp, csvData);
                     });
-                
+
             });
         };
+    }
+
+    recalcular() {
+        return function (req, resp) {
+            const fs = require('fs');
+            //const formidable = require('formidable');
+            const neatCsv = require('neat-csv');
+
+            fs.readFile('dados.csv', async (err, data) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                await neatCsv(data);
+                var csvData = [];
+                const parse = require('csv-parse');
+                fs.createReadStream('dados.csv')
+                    .pipe(parse({ delimiter: ' ' || ';' }))
+                    .on('data', function (csvrow) {
+                        //console.log(!isNaN(csvrow));
+                        //do something with csvrow
+                        if (!isNaN(csvrow)) {
+                            csvData.push(String(csvrow).replace(/,/, '.'));
+                        }
+                    })
+                    .on('end', function () {
+                        //do something with csvData
+                        //console.log(csvData);
+                        return python(resp, csvData);
+                    });
+
+            });
+        }
     }
 }
 module.exports = RotasControlador;

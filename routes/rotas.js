@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.post(rotas.graph, rotasControlador.graph());
     app.get(rotas.home, rotasControlador.home());
     app.post(rotas.upload, rotasControlador.upload());
+    app.post(rotas.recalcular, rotasControlador.recalcular())
 }
