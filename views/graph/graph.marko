@@ -1,7 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head/>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Calculo do Pk</title>
+    <link rel="stylesheet" href="/static/css/foundation.min.css"/>
+    <link rel="stylesheet" href="/nd_md/@fortawesome/fontawesome-free/css/all.css"/>
+  </head>
   <body>
+    <nav class="top-bar topbar-responsive">
+      <div class="top-bar-title">
+        <a class="topbar-responsive-logo" href="/">
+          <strong>Cálculo da Probabilidade da Log-Normal</strong>
+        </a>
+      </div>
+    </nav>
+    <br/>
     <input type="hidden" id="data" name="data" value=`${data.dados}`/>
     <input type="hidden" id="random" name="random" value=`${data.random}`/>
     <input type="hidden" id="string" name="string" value=`${data.strings}`/>
@@ -10,11 +24,35 @@
     <!-- <div id="container" style="width: 100%; height: 600px;"/> -->
     <div id="container3" style="width: 100%; height: 600px;"/>
     <form action="/recalcular" method="post">
-        <button class="btn btn-secundary">recalcular</button>
+      <div class="button-group">
+        <!--<button class="button primary">recalcular</button>-->
+        <a class="button" href="/">voltar</a>
+      </div>
     </form>
-    <a href="/">
-      <button class="btn btn-primary">voltar</button>
-    </a>
+    <footer class="social-footer">
+      <div class="social-footer-left">
+        <p>&copy; 2021 Copyright</p>
+      </div>
+      <div class="social-footer-icons">
+        <li class="menu simple">
+          <ul>
+            <a href="https://gitlab.com/Josehpequeno/">
+              <i class="fab fa-gitlab" aria-hidden="true">Josehpequeno</i>
+            </a>
+          </ul>
+          <ul>
+            <a href="https://github.com/Josehpequeno">
+              <i class="fab fa-github" aria-hidden="true">Josehpequeno</i>
+            </a>
+          </ul>
+          <ul>
+            <a href="https://www.linkedin.com/in/hicaro-jose-2aa269166/">
+              <i class="fab fa-linkedin" aria-hidden="true">hicaro-jose</i>
+            </a>
+          </ul>
+        </li>
+      </div>
+    </footer>
     <script src="/static/jquery/jquery.min.js"/>
     <script src="/static/js/anychart-base.min.js" type="text/javascript"/>
     <!--<script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>-->
