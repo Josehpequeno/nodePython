@@ -6299,6 +6299,15 @@ screen and (min-width: 64em) {
     cursor: pointer;
 }
 
+.menu-icon-svg svg {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 16px;
+    fill: white
+}
+
 .menu-icon::after {
     position: absolute;
     top: 0;
