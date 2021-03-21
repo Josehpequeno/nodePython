@@ -22,6 +22,12 @@ screen and (min-width: 40em) {
 
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 
+.color1 {color: #00140c;}
+.color2 {color: #284f58;}
+.color3 {color: #426630;}
+.color4 {color: #a1aa72;}
+.color5 {color: #d8d8bf;}
+
 html {
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
@@ -165,6 +171,7 @@ textarea {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     padding: 0;
+    background-color: #284f58;
 }
 
 [type="number"]::-webkit-inner-spin-button,
@@ -3709,7 +3716,7 @@ screen and (min-width: 64em) {
 .button.primary[disabled]:hover,
 .button.primary.disabled:focus,
 .button.primary[disabled]:focus {
-    background-color: #1779ba;
+    background-color: #284f58;
     color: #fefefe;
 }
 
@@ -3726,7 +3733,7 @@ screen and (min-width: 64em) {
 .button.secondary[disabled]:hover,
 .button.secondary.disabled:focus,
 .button.secondary[disabled]:focus {
-    background-color: #767676;
+    background-color: #426630;
     color: #fefefe;
 }
 
@@ -4664,12 +4671,12 @@ screen and (max-width: 63.99875em) {
 }
 
 .label.primary {
-    background: #1779ba;
+    background: #284f58;
     color: #fefefe;
 }
 
 .label.secondary {
-    background: #767676;
+    background: #284f58;
     color: #fefefe;
 }
 
@@ -4889,7 +4896,7 @@ input+.switch-paddle {
 }
 
 input:checked~.switch-paddle {
-    background: #1779ba;
+    background: #426630; 
 }
 
 input:checked~.switch-paddle::after {
@@ -8358,7 +8365,7 @@ screen and (min-width: 75em) {
 /*# sourceMappingURL=foundation.css.map */
 
 .topbar-responsive {
-    background: #2c3840;
+    background: #00140c;
     padding: 1rem 1.5rem;
 }
 
@@ -8547,7 +8554,7 @@ screen and (min-width: 75em) {
 
 .social-footer {
     padding: 1rem;
-    background: #23252F;
+    background: #00140c;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -8559,6 +8566,12 @@ screen and (min-width: 75em) {
     justify-content: space-between;
     color: white;
 }
+
+.social-footer li {
+    font-size: 14px;
+    margin-left: 10px;
+    list-style-type: none;
+ }
 
 .social-footer .social-footer-icons li:last-of-type {
     margin-right: 0;
