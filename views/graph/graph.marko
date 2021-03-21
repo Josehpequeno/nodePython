@@ -24,55 +24,59 @@
       </div>
     </nav>
     <br/>
-    <input type="hidden" id="data" name="data" value=`${data.dados}`/>
-    <input type="hidden" id="random" name="random" value=`${data.random}`/>
-    <input type="hidden" id="string" name="string" value=`${data.strings}`/>
-    <input type="hidden" id="entrada" name="entrada" value=`${data.entrada}`/>
-    <div id="container2" style="width: 100%; height: 400px;"/>
-    <!-- <div id="container" style="width: 100%; height: 600px;"/> -->
-    <div id="container3" style="width: 100%; height: 600px;"/>
-    <form action="/recalcular" method="post">
-      <div class="button-group">
-        <!--<button class="button primary">recalcular</button>-->
-        <a class="button" href="/">voltar</a>
-      </div>
-    </form>
+    <div class="grid-container">
+      <input type="hidden" id="data" name="data" value=`${data.dados}`/>
+      <input type="hidden" id="random" name="random" value=`${data.random}`/>
+      <input type="hidden" id="string" name="string" value=`${data.strings}`/>
+      <input type="hidden" id="entrada" name="entrada" value=`${data.entrada}`/>
+      <div id="container2" style="width: 100%; height: 400px;"/>
+      <!-- <div id="container" style="width: 100%; height: 600px;"/> -->
+      <div id="container3" style="width: 100%; height: 600px;"/>
+      <form action="/recalcular" method="post">
+        <div class="button-group">
+          <!--<button class="button primary">recalcular</button>-->
+          <a class="button" href="/">voltar</a>
+        </div>
+      </form>
+    </div>
     <footer class="social-footer">
       <li>
         <div class="social-footer-left">
-          <p>&copy; 2021 Copyright</p>
+          <p>&copy; 2021 Josehpequeno</p>
         </div>
         <div class="social-footer-icons">
           <li class="menu simple">
             <ul>
-              <a href="https://gitlab.com/Josehpequeno/">
-                <i class="fab fa-gitlab" aria-hidden="true"/>&nbsp;Josehpequeno
+              <a href="https://gitlab.com/Josehpequeno/" class="transparente color5">
+                <i class="fab fa-gitlab" aria-hidden="true"/>
               </a>
             </ul>
-            <ul/>
             <ul>
-              <a href="https://github.com/Josehpequeno">
-                <i class="fab fa-github" aria-hidden="true"/>&nbsp;Josehpequeno
+              <a href="https://github.com/Josehpequeno/" class="transparente color5">
+                <i class="fab fa-github" aria-hidden="true"/>
               </a>
             </ul>
-            <ul/>
             <ul>
-              <a href="https://www.linkedin.com/in/hicaro-jose-2aa269166/">
-                <i class="fab fa-linkedin" aria-hidden="true"/>&nbsp;hicaro-jose
+              <a href="https://www.linkedin.com/in/hicaro-jose-2aa269166/" class="transparente color5">
+                <i class="fab fa-linkedin" aria-hidden="true"/>
               </a>
             </ul>
-            <ul/>
+            <ul>
+              <a href="mailto:hicarojbs21@gmail.com?subject=Site Calculo-Pk" class="transparente color5">
+                <i class="fas fa-envelope-square" aria-hidden="true"/>
+              </a>
+            </ul>
           </li>
         </div>
       </li>
       <li>
         <div>
-          <small>Favicon made by &nbsp;</small>
-          <a href="https://www.freepik.com" title="Freepik">
+          <small>Favicon made by&nbsp;</small>
+          <a href="https://www.freepik.com" title="Freepik" class="color2">
             <small>Freepik&nbsp;</small>
           </a>
           <small>from&nbsp;</small>
-          <a href="https://www.flaticon.com/" title="Flaticon">
+          <a href="https://www.flaticon.com/" title="Flaticon" class="color2">
             <small>flaticon</small>
           </a>
         </div>
