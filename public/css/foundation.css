@@ -216,6 +216,10 @@ template {
     display: none
 }
 
+.hidden {
+    display: none
+}
+
 .foundation-mq {
     font-family: "small=0em&medium=40em&large=64em&xlarge=75em&xxlarge=90em"
 }
@@ -8638,4 +8642,34 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked:after {
     display: block;
     border-radius: 5px;
+}
+
+.loader {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: #426630;
+    position: absolute;
+    text-align: center;
+}
+
+.loader>div {
+    height: 100px;
+    width: 100px;
+    border: 15px solid #a1aa72;
+    border-top-color: #284f58;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 50%;
+    animation: spin 1.5s infinite linear;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }
