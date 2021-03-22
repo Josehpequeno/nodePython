@@ -8572,7 +8572,8 @@ screen and (min-width:75em) {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    color: #fff
+    color: #fff;
+    margin-bottom: 2rem;
 }
 
 .social-footer li {
@@ -8673,3 +8674,4 @@ input[type="checkbox"]:checked:after {
         transform: rotate(360deg);
     }
 }
+  
