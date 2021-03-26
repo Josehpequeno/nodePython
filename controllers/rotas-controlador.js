@@ -7,15 +7,16 @@ function python(resp, dataToSend) {
 
     let data = [];
     let x = [];
+    var sar = [];
+    var entrada = [];
     pyshell.send(JSON.stringify(dataToSend));
     pyshell.on('message', function (message) {
         // received a message sent from the Python script (a simple "print" statement)
         message = JSON.parse(message)
         console.log(message);
-        console.log("Numero gerado randomicamente: ", message["N_g_r"])
         x = message["strings"];
         data = message["Pks"];
-        random = message["N_g_r"];
+        sar = message["SARParabolic"];
         entrada = message["Entrada"];
 
     });
@@ -29,7 +30,7 @@ function python(resp, dataToSend) {
         return resp.status(200).marko(templates.graph, {
             dados: data,
             strings: x,
-            random: random,
+            sar: sar,
             entrada: entrada
         });
     });

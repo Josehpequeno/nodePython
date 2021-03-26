@@ -6,7 +6,7 @@
     <title>Calculo do Pk</title>
     <link class="rounded-circle" href="/static/icons/line-stats.svg" rel="icon"/>
     <link rel="stylesheet" href="/static/css/foundation.min.css"/>
-    <link rel="stylesheet" href="/nd_md/@fortawesome/fontawesome-free/css/all.css"/>
+    <link rel="stylesheet" href="/nd_md/@fortawesome/fontawesome-free/css/all.min.css"/>
   </head>
   <body>
     <nav class="top-bar topbar-responsive">
@@ -26,7 +26,7 @@
     <br/>
     <div class="grid-container">
       <input type="hidden" id="data" name="data" value=`${data.dados}`/>
-      <input type="hidden" id="random" name="random" value=`${data.random}`/>
+      <input type="hidden" id="sar" name="sar" value=`${data.sar}`/>
       <input type="hidden" id="string" name="string" value=`${data.strings}`/>
       <input type="hidden" id="entrada" name="entrada" value=`${data.entrada}`/>
       <div id="container2" style="width: 100%; height: 400px;"/>
@@ -95,13 +95,13 @@
       var data = $box.val();
       var $box2 = $("input#string");
       var string = $box2.val();
-      var $box3 = $("input#random");
-      var random = $box3.val();
+      var $box3 = $("input#sar");
+      var sar = $box3.val();
       var $box4 = $("input#entrada");
       var entrada = $box4.val();
       string = string.split(',');
       data = data.split(',');
-      random = random.split(',');
+      sar = sar.split(',');
       entrada = entrada.split(',');
       var dados = [];
       var array = [];
@@ -136,18 +136,10 @@
       dados = []; 
       for(var x = 0; x < entrada.length ; x++){
         array = [`valor ${x}`, entrada[x]];
-        array1 = [`valor ${x}`, random[0]];
-        array2 = [`valor ${x}`, random[1]];
-        array3 = [`valor ${x}`, random[2]];
-        array4 = [`valor ${x}`, random[3]];
-        array5 = [`valor ${x}`, random[4]];
+        array1 = [`valor ${x}`, sar[x]];
           //array1 = array;
         dados.push(array);
         dados1.push(array1);
-        dados2.push(array2);
-        dados3.push(array3);
-        dados4.push(array4);
-        dados5.push(array5);
       }
       /*dados2 = anychart.data.set(dados2);
       chart = anychart.line();
@@ -182,34 +174,18 @@
 
       dataSet = (dados);
       dataSet1 = (dados1);
-      dataSet2 = (dados2);
-      dataSet3 = (dados3);
-      dataSet4 = (dados4);
-      dataSet5 = (dados5);
-
+      
       series = chart.line(dataSet);
       series.name("Valor Real")
       series1 = chart.line(dataSet1);
-      series1.stroke("red");
-      series1.name("P1");
-      series2 = chart.line(dataSet2);
-      series2.stroke("green");
-      series2.name("P2");
-      series3 = chart.line(dataSet3);
-      series3.stroke("yellow");
-      series3.name("P3");
-      series4 = chart.line(dataSet4);
-      series4.stroke("purple");
-      series4.name("P4");
-      series5 = chart.line(dataSet5);
-      series5.stroke("black");
-      series5.name("P5");
+      series1.stroke("green");
+      series1.name("SAR");
       var scale = chart.yScale();
       // Sets scale maximum.
       //scale.maximum(2);
 
       // add a title standalone object on the chart
-      chart.title("Dados e Pontos");
+      chart.title("Dados e SAR");
       chart.dataArea().background().enabled(true);
       chart.dataArea().background().fill("#665B59 0.2");
 

@@ -28,38 +28,6 @@ def cal_desvio(x, media_mov):
     desvio_mov = (soma/count)**(0.5)
     return desvio_mov
 
-
-def getValor(p0, p1, array):
-    #arquivo.append(p0)
-    array.append(p1)
-    #print(array)
-    #print(p0)
-    media_mov = cal_media([p0,p1])
-    desvio_mov = cal_desvio([p0,p1], media_mov)
-    #print(cal_desvio([p1],cal_media([p1])))
-    #mov = np.random.lognormal(media, desvio, 500)
-    #media_mov = cal_media(mov)
-    #desvio_mov = cal_desvio(mov, media_mov)
-    valor = 0
-    if p0 > p1:
-        while valor <= p0:
-            valor = np.random.lognormal(media_mov, desvio_mov, 1)
-            #valor = ((valor[0]-p1)/abs(valor[0]-p1))*valor[0]
-    #if(media > media_mov):
-            valor = valor[0]
-            print(valor)
-        print(1)
-    else:
-        valor = -1
-        while valor >= p1 or valor <= p0:
-            valor = np.random.lognormal(media_mov, desvio_mov, 1)
-            valor = valor[0]
-            print(valor)
-        print(-1)
-    print(valor)
-    return valor
-
-
 def read_in():
     lines = sys.stdin.readlines()
     # Since our input would only be having one line, parse our JSON data from that
@@ -83,17 +51,161 @@ def main():
 if __name__ == '__main__':
     arquivo = main()
 
-df = pd.DataFrame(arquivo, columns=['Valor'])
+# Inicializar variáveis
+PontoA = 0.0
+PontoB = 0.0
+DistanciaAB = 0.0
+#
+Tendencia = 'Baixa'
+AtingiuLimiar = 'Não'
+#
+Indice = []
+SARParabolic = []
+Fechamento = []
+Movimento = []
+Correcao = []
+MovimentoArtificial = []
+MovimentoArtificialRand = []
+MovimentoArtificialRandAcumulado = []
+CorrecaoArtificial = []
+CorrecaoArtificialRand = []
+CorrecaoArtificialRandAcumulado = []
+PontoArtificial = []
+
+df = pd.DataFrame(arquivo, columns=['Fechamento'])
+dfOrdenados = df['Fechamento']
+Tamanho = 500
+if Tamanho > len(dfOrdenados):
+    Tamanho = len(dfOrdenados)
+# Somente os preços de fechamento de 0 até Tamanho
+for i in range(Tamanho):
+    Fechamento.append(i)
+    Fechamento[i] = dfOrdenados[i]
+
+for i in range(len(Fechamento)):
+    Indice.append(i)
+    SARParabolic.append(0)
+    # Inicializar o SARParabolic no Primeiro preço de Fechamento
+    if i == 0:
+        SARParabolic[i] = Fechamento[i]
+    else:
+        if AtingiuLimiar == 'Sim':
+            AtingiuLimiar = 'Não'
+            SARParabolic[i] = Fechamento[i-2]
+            if Tendencia == 'Alta':
+                Tendencia = 'Baixa'
+                # Encontrar maior ponto do vetor
+                PontoA = SARParabolic[i]
+                # Calcular Movimento
+                if PontoB > 0:
+                    DistanciaAB = (PontoA - PontoB) / PontoB
+                    if DistanciaAB > 0:
+                        Movimento.append(DistanciaAB)
+                        # print(Movimento)
+                    else:
+                        if DistanciaAB < 0:
+                            Correcao.append(abs(DistanciaAB))
+                            # print(Correcao)
+            else:  # Tendencia == 'Baixa'
+                Tendencia = 'Alta'
+                # Encontrar maior ponto do vetor
+                PontoB = SARParabolic[i]
+                # Calcular Movimento
+                if PontoA > 0:
+                    DistanciaAB = (PontoB - PontoA) / PontoA
+                    if DistanciaAB > 0:
+                        Movimento.append(DistanciaAB)
+                        # print(Movimento)
+                    else:
+                        if DistanciaAB < 0:
+                            Correcao.append(abs(DistanciaAB))
+                            # print(Correcao)
+        else:  # AtingiuLimiar == 'Não':
+            # Atualizar o valor de SARParabolic com fator de 0.02
+            fator = 0.02
+            if Tendencia == 'Alta':
+                SARParabolic[i] = SARParabolic[i-1] * (1+fator)
+            else:  # Tendencia == 'Baixa':
+                SARParabolic[i] = SARParabolic[i-1] * (1-fator)
+            # Verificar se o Fechamento atingiu o limiar para mudar o sentido da tendência
+            if Tendencia == 'Alta':
+                if Fechamento[i] < SARParabolic[i]:
+                    AtingiuLimiar = 'Sim'
+            else:  # Tendencia == 'Baixa':
+                if Fechamento[i] > SARParabolic[i]:
+                    AtingiuLimiar = 'Sim'
+
+# Calcular Média e Desvio Padrão usando Logaritmo
+#MovimentoMu = np.mean(Movimento)
+MovimentoMu = cal_media(Movimento)
+#MovimentoSigma = np.std(Movimento)
+MovimentoSigma = cal_desvio(Movimento, MovimentoMu)
+#CorrecaoMu = np.mean(Correcao)
+CorrecaoMu = cal_media(Correcao)
+#CorrecaoSigma = np.std(Correcao)
+CorrecaoSigma = cal_desvio(Correcao, CorrecaoMu)
+
+for i in range(Tamanho):
+    MovimentoArtificialRand.append(0)
+    MovimentoArtificialRandAcumulado.append(0)
+    CorrecaoArtificialRand.append(0)
+    CorrecaoArtificialRandAcumulado.append(0)
+    if i == 0:
+        MovimentoArtificialRand[i] = 0
+        CorrecaoArtificialRand[i] = 0
+    if i > 0:
+        MovimentoArtificialRand[i] = np.random.lognormal(MovimentoMu, MovimentoSigma, 1)[0]
+        CorrecaoArtificialRand[i] = np.random.lognormal(CorrecaoMu, CorrecaoSigma, 1)[0]
+        # Falta acompanhar a média dos valores randômicos para atender à probalidade de cada classe
+        MovimentoArtificialRandAcumulado[i] = MovimentoArtificialRand[i] / i
+        CorrecaoArtificialRandAcumulado[i] = CorrecaoArtificialRand[i] / i
+
+for i in range(len(Movimento)):
+    #MovimentoArtificial = np.append(MovimentoArtificial,0)
+    WarmUP = round(Tamanho * 0.1) + i
+    MovimentoArtificial.append(MovimentoArtificialRand[WarmUP])
+    #MovimentoArtificial[i] = np.random.lognormal(MovimentoMu, MovimentoSigma, 1)
+#
+#CorrecaoArtificialRand = np.random.lognormal(CorrecaoMu, CorrecaoSigma, len(Correcao))
+for i in range(len(Correcao)):
+    #CorrecaoArtificial = np.append(CorrecaoArtificial,0)
+    WarmUP = round(Tamanho * 0.1) + i
+    CorrecaoArtificial.append(CorrecaoArtificialRand[WarmUP])
+    #CorrecaoArtificial[i] = np.random.lognormal(CorrecaoMu, CorrecaoSigma, 1)
+
+# Gerar Pontos Artificiais
+for i in range(len(MovimentoArtificial)):
+    PontoArtificial.append(0)
+    if i == 0:
+        PontoArtificial[i] = Fechamento[0]
+        Impar = True
+        Par = False
+        j = 0
+        k = 0
+    else:
+        if Par == True:
+            PontoArtificial[i] = PontoArtificial[i-1] * (1 + MovimentoArtificial[j])
+            j += 1
+            Par = False
+            Impar = True
+        else:
+            if Impar == True:
+                PontoArtificial[i] = PontoArtificial[i-1] * (1 - CorrecaoArtificial[k])
+                k += 1
+                Impar = False
+                Par = True
+
+
 soma = 0
-count = df['Valor'].count()
+count = dfOrdenados.count()
 for i in df.index:
-    soma += math.log(float(df['Valor'][i]))
+    soma += math.log(float(dfOrdenados[i]))
 media = soma/count
 # media = 2.454439041#populacional
 # desvio = 0.5268861611#populacional
 soma = 0
 for i in df.index:
-    soma += ((math.log(float(df['Valor'][i]))) - media)**2
+    soma += ((math.log(float(dfOrdenados[i]))) - media)**2
 desvio = (soma/count)**(0.5)
 data = {}
 data["Entrada"] = arquivo
@@ -102,8 +214,8 @@ data["Desvio"] = desvio
 
 k = round(1+(3.3*math.log10(count)))
 data["Classes"] = k
-min = df['Valor'].min()
-max = df['Valor'].max()
+min = dfOrdenados.min()
+max = dfOrdenados.max()
 data["Maior_valor"] = max
 data["Menor_valor"] = min
 amplitude = max - min
@@ -155,41 +267,15 @@ data["Pks"] = logn
 data["strings"] = pks
 dt = pd.DataFrame(data=d)
 # data["Data"] = dt
-p1 = df['Valor'][0]
-while True:
-    aux = arquivo.copy()
-    #aux = []
-    valor = getValor(math.exp(media), p1, aux)
-    p2 = valor
-    aux = [p1]
-    #aux.pop()
-    #print(aux)
-    valor = getValor(p1, p2, aux)
-    p3 = valor
-    print([p1,p2,p3])
-    #print(valor)
-    if((p2 > p1 and p3 > p2) or (p1 > p2 and p2 > p3)):
-        print(2)
-        continue
-    valor = getValor(p2, p3, aux)
-    p4 = valor
-    print([p1,p2,p3,p4])
-    if((p3 > p2 and p4 > p3) or (p2 > p3 and p3 > p4)):
-        print(3)
-        continue
-    valor = getValor(p3, p4, aux)
-    p5 = valor
-    print([p1,p2,p3,p4,p5])
-    if((p4 > p3 and p5 > p4) or (p3 > p4 and p4 > p5)):
-        print(4)
-        continue
-    break
-# p2 = np.random.lognormal(media, desvio, 1)
-# p3 = np.random.lognormal(media, desvio, 1)
-# p4 = np.random.lognormal(media, desvio, 1)
-# p5 = np.random.lognormal(media, desvio, 1)
-data["N_g_r"] = [p1, p2, p3, p4, p5]
-# print(json.dumps(pks))
+#data["Fechamento"] = Fechamento
+data["SARParabolic"] = SARParabolic
+data["PontoArtificial"] = PontoArtificial
+data["MovimentoArtificialRandAcumulado"] = MovimentoArtificialRandAcumulado
+data["CorrecaoArtificialRandAcumulado"] = CorrecaoArtificialRandAcumulado
+data["Movimento"] = Movimento
+data["Correcao"] = Correcao
+data["MovimentoArtificial"] = MovimentoArtificial
+data["CorrecaoArtificial"] = CorrecaoArtificial
 print(json.dumps(data))
 '''plt.title('Histograma de Pk', fontsize=20)
 plt.xlabel('Pk', fontsize=15)
