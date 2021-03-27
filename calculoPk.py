@@ -14,6 +14,8 @@ def I(x):
 def cal_media(x):
     soma = 0
     count = len(x)
+    if(count == 0):
+        return 0  # tratamento temporário para quando não há movimento
     for i in range(0, count):
         soma += math.log(x[i])
     media_mov = soma/count
@@ -23,10 +25,13 @@ def cal_media(x):
 def cal_desvio(x, media_mov):
     soma = 0
     count = len(x)
+    if(count == 0):
+        return 0  # tratamento temporário para quando não há movimento
     for i in range(0, count):
         soma += (math.log(x[i]) - media_mov)**2
     desvio_mov = (soma/count)**(0.5)
     return desvio_mov
+
 
 def read_in():
     lines = sys.stdin.readlines()
@@ -81,7 +86,6 @@ if Tamanho > len(dfOrdenados):
 for i in range(Tamanho):
     Fechamento.append(i)
     Fechamento[i] = dfOrdenados[i]
-
 for i in range(len(Fechamento)):
     Indice.append(i)
     SARParabolic.append(0)
@@ -154,8 +158,10 @@ for i in range(Tamanho):
         MovimentoArtificialRand[i] = 0
         CorrecaoArtificialRand[i] = 0
     if i > 0:
-        MovimentoArtificialRand[i] = np.random.lognormal(MovimentoMu, MovimentoSigma, 1)[0]
-        CorrecaoArtificialRand[i] = np.random.lognormal(CorrecaoMu, CorrecaoSigma, 1)[0]
+        MovimentoArtificialRand[i] = np.random.lognormal(
+            MovimentoMu, MovimentoSigma, 1)[0]
+        CorrecaoArtificialRand[i] = np.random.lognormal(
+            CorrecaoMu, CorrecaoSigma, 1)[0]
         # Falta acompanhar a média dos valores randômicos para atender à probalidade de cada classe
         MovimentoArtificialRandAcumulado[i] = MovimentoArtificialRand[i] / i
         CorrecaoArtificialRandAcumulado[i] = CorrecaoArtificialRand[i] / i
@@ -184,13 +190,15 @@ for i in range(len(MovimentoArtificial)):
         k = 0
     else:
         if Par == True:
-            PontoArtificial[i] = PontoArtificial[i-1] * (1 + MovimentoArtificial[j])
+            PontoArtificial[i] = PontoArtificial[i-1] * \
+                (1 + MovimentoArtificial[j])
             j += 1
             Par = False
             Impar = True
         else:
             if Impar == True:
-                PontoArtificial[i] = PontoArtificial[i-1] * (1 - CorrecaoArtificial[k])
+                PontoArtificial[i] = PontoArtificial[i-1] * \
+                    (1 - CorrecaoArtificial[k])
                 k += 1
                 Impar = False
                 Par = True
@@ -277,9 +285,3 @@ data["Correcao"] = Correcao
 data["MovimentoArtificial"] = MovimentoArtificial
 data["CorrecaoArtificial"] = CorrecaoArtificial
 print(json.dumps(data))
-'''plt.title('Histograma de Pk', fontsize=20)
-plt.xlabel('Pk', fontsize=15)
-plt.ylabel('Frequência', fontsize=15)
-plt.tick_params(labelsize=12)
-plt.hist(logn, 5, rwidth=0.9)
-plt.show()'''

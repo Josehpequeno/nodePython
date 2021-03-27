@@ -5,10 +5,17 @@ let { PythonShell } = require('python-shell');
 function python(resp, dataToSend) {
     let pyshell = new PythonShell('calculoPk.py');
 
-    let data = [];
-    let x = [];
-    var sar = [];
-    var entrada = [];
+    let data;
+    let x;
+    var sar;
+    var entrada;
+    var pontosArtificiais;
+    var correcaoRand;
+    var movimentoRand;
+    var correcaoA;
+    var movimentoA;
+    var correcao;
+    var movimento;
     pyshell.send(JSON.stringify(dataToSend));
     pyshell.on('message', function (message) {
         // received a message sent from the Python script (a simple "print" statement)
@@ -18,7 +25,13 @@ function python(resp, dataToSend) {
         data = message["Pks"];
         sar = message["SARParabolic"];
         entrada = message["Entrada"];
-
+        pontosArtificiais = message["PontoArtificial"]; 
+        movimentoRand = message["MovimentoArtificialRandAcumulado"];
+        correcaoRand = message["CorrecaoArtificialRandAcumulado"];
+        correcaoA = message["MovimentoArtificial"];
+        movimentoA = message["CorrecaoArtificial"];
+        correcao = message["Movimento"];
+        movimento = message["Correcao"];
     });
     // end the input stream and allow the process to exit
     pyshell.end(function (err, code, signal) {
@@ -31,7 +44,14 @@ function python(resp, dataToSend) {
             dados: data,
             strings: x,
             sar: sar,
-            entrada: entrada
+            entrada: entrada,
+            pontos: pontosArtificiais,
+            random1: movimentoRand,
+            random2: correcaoRand,
+            movimentoA: movimentoA,
+            correcaoA: correcaoA,
+            movimento: movimento,
+            correcao: correcao
         });
     });
 }
