@@ -16,6 +16,10 @@ function python(resp, dataToSend) {
     var movimentoA;
     var correcao;
     var movimento;
+    var correcaoAS;
+    var movimentoAS;
+    var correcaoS;
+    var movimentoS;
     pyshell.send(JSON.stringify(dataToSend));
     pyshell.on('message', function (message) {
         // received a message sent from the Python script (a simple "print" statement)
@@ -32,6 +36,10 @@ function python(resp, dataToSend) {
         movimentoA = message["CorrecaoArtificial"];
         correcao = message["Movimento"];
         movimento = message["Correcao"];
+        correcaoAS = message["MovimentoArtificialS"];
+        movimentoAS = message["CorrecaoArtificialS"];
+        correcaoS = message["MovimentoS"];
+        movimentoS = message["CorrecaoS"];
     });
     // end the input stream and allow the process to exit
     pyshell.end(function (err, code, signal) {
@@ -51,7 +59,11 @@ function python(resp, dataToSend) {
             movimentoA: movimentoA,
             correcaoA: correcaoA,
             movimento: movimento,
-            correcao: correcao
+            correcao: correcao,
+            movimentoAS: movimentoAS,
+            correcaoAS: correcaoAS,
+            movimentoS: movimentoS,
+            correcaoS: correcaoS
         });
     });
 }

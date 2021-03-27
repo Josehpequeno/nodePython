@@ -32,6 +32,24 @@ def cal_desvio(x, media_mov):
     desvio_mov = (soma/count)**(0.5)
     return desvio_mov
 
+def classes(k, array):
+    mi = np.min(array)
+    mx = np.max(array)
+    h = (mx - mi)/k
+    string = []
+    number = []
+    string.append(round(mi, 3))
+    string.append(round(mx,3))
+    string.append(round(h,3))
+    while (mi < mx):
+        count = 0
+        aux = mi
+        mi = round(mi + h, 3)
+        for i in range(len(array)):
+            if(array[i] > aux and array[i] <= mi):
+                count +=1
+        number.append(count)
+    return string, number
 
 def read_in():
     lines = sys.stdin.readlines()
@@ -280,8 +298,16 @@ data["SARParabolic"] = SARParabolic
 data["PontoArtificial"] = PontoArtificial
 data["MovimentoArtificialRandAcumulado"] = MovimentoArtificialRandAcumulado
 data["CorrecaoArtificialRandAcumulado"] = CorrecaoArtificialRandAcumulado
+MovimentoS, Movimento = classes(k,Movimento)
 data["Movimento"] = Movimento
+data["MovimentoS"] = MovimentoS
+CorrecaoS, Correcao = classes(k,Correcao)
 data["Correcao"] = Correcao
+data["CorrecaoS"] = CorrecaoS
+MovimentoArtificialS, MovimentoArtificial = classes(k,MovimentoArtificial)
 data["MovimentoArtificial"] = MovimentoArtificial
+data["MovimentoArtificialS"] = MovimentoArtificialS
+CorrecaoArtificialS, CorrecaoArtificial = classes(k,CorrecaoArtificial)
 data["CorrecaoArtificial"] = CorrecaoArtificial
+data["CorrecaoArtificialS"] = CorrecaoArtificialS
 print(json.dumps(data))
