@@ -38,15 +38,13 @@ def classes(k, array):
     h = (mx - mi)/k
     string = []
     number = []
-    string.append(round(mi, 3))
-    string.append(round(mx,3))
-    string.append(round(h,3))
     while (mi < mx):
         count = 0
         aux = mi
+        string.append(round(mi, 3))
         mi = round(mi + h, 3)
         for i in range(len(array)):
-            if(array[i] > aux and array[i] <= mi):
+            if(array[i] >= aux and array[i] < mi):
                 count +=1
         number.append(count)
     return string, number

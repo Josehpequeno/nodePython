@@ -88,6 +88,7 @@ class RotasControlador {
         return function (req, resp) {
 
             let dataToSend = req.body.story.trim();
+            dataToSend = dataToSend.replace(/\r?\n|\r/g, ' ');//tratar quebra de linha
             let escolha = req.body.fooby[0][0];
             if (escolha == "espaco") {
                 dataToSend = dataToSend.split(" ");

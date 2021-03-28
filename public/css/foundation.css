@@ -7812,3 +7812,16 @@ input[type="checkbox"]:checked:after {
     display: table;
     clear: both;
 }
+
+.bar {
+    fill: steelblue;
+}
+
+.bar:hover {
+    fill: brown;
+}
+
+.axis--x path {
+    display: none;
+    font-size: small;
+}

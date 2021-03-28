@@ -50,9 +50,9 @@
         <input type="hidden" id="movimentoAS" name="movimentoAS" value=`${data.movimentoAS}`/>
         <input type="hidden" id="correcaoS" name="correcaoS" value=`${data.correcaoS}`/>
         <input type="hidden" id="movimentoS" name="movimentoS" value=`${data.movimentoS}`/>
-        
         <div class="small-12 column">
           <div id="container1" style="width: 100%; height: 500px;"/>
+          <svg id="c1" height="500"/>
           <div id="container2" style="width: 100%; height: 500px;"/>
           <div id="container3" style="width: 100%; height: 500px;"/>
           <div id="container4" style="width: 100%; height: 500px;"/>
@@ -61,7 +61,7 @@
               <div id="container5" style="width: 100%; height: 500px;"/>
             </div>
             <div class="columngraph">
-              <div id="container6" style="width: 100%; height: 500px;"/>
+              <div style="width: 100%; height: 500px;"/>
             </div>
           </div>
           <div class="rowgraph" style="height: 500px;">
@@ -131,8 +131,8 @@
     </div>
     <script src="/static/jquery/jquery.min.js"/>
     <script src="/static/js/anychart-base.min.js" type="text/javascript"/>
-    <script src="/nd_md/anychart/dist/js/anychart-ui.min.js" type="text/javascript"/>
-    <script src="/nd_md/anychart/dist/js/anychart-exports.min.js" type="text/javascript"/> 
+    <script src="/nd_md/anychart/dist/js/anychart-core.min.js" type="text/javascript"/>
+    <script src="/nd_md/d3/dist/d3.min.js" type="text/javascript"/>
     <script>
       $(function() {
         $(".loader").addClass("hidden");
@@ -140,7 +140,7 @@
       });
     </script>
     <script>
-      anychart.onDocumentLoad(function () {
+      //anychart.onDocumentLoad(function () {
         // create an instance of a pie chart
       
       var $box = $("input#data");
@@ -189,12 +189,78 @@
       movimentoS = movimentoS.split(',');
       correcaoS = correcaoS.split(',');
       var dados = [];
+      var dt = [];
       var array = [];
       for(var x = 0; x < data.length ; x++){
         array = [string[x],data[x]];
+        dt.push({"x": string[x],"y": data[x]})
         dados.push(array);
       }
       
+      /*var svg = d3.select("svg#c1").attr("width", '100%'),
+      margin = {top: 20, right: 20, bottom: 30, left: 40},
+      width = +$(window).width()-250 - margin.left - margin.right,
+      height = +svg.attr("height") - margin.top - margin.bottom;
+      console.log(svg.attr("height"));
+      console.log(svg.attr("width"));
+      console.log($(window).width());
+      */
+
+      var svg = d3.select('#container1').append("svg")
+      //.attr("width", '2000')
+      //.attr("height", '500')
+      .attr("viewBox", `0 0 500 500`)
+      //.attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
+      .attr('preserveAspectRatio','xMinYMin')
+      .append("g")
+      //.attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")"),
+      margin = {top: 20, right: 20, bottom: 30, left: 40},
+      width = +500 - margin.left - margin.right,
+      height = +250 - margin.top - margin.bottom;
+      console.log(svg.attr("height"));
+      console.log(svg.attr("width"));
+
+
+      var g = svg.append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var x = d3.scaleBand().range([0, width]),
+      y = d3.scaleLinear().range([height, 0]);
+
+      x.domain(dt.map(function(d) { return d.x; }));
+      y.domain([0, d3.max(dt, function(d) { return d.y; })]);
+      g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+      g.append("g")
+        .attr("class", "axis axis--y")
+        .call(d3.axisLeft(y).ticks(10, "%"))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.1em")
+        .attr("text-anchor", "end")
+        .text("Frequência");
+
+      g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("dx", "0.1em")
+      g.selectAll(".bar")
+        .data(dt)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.x); })
+        .attr("y", function(d) { console.log("x: ",d.x);return y(d.y); })
+        //.attr("x", d => x(d.x) + 1)
+        //.attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
+        .attr("width", x.bandwidth()-1)
+        .attr("height", function(d) { return height - y(d.y); });
+        //.attr("y", d => y(d.length))
+        //.attr("height", d => y(d.y) - y(d.length));
+/*
+
       var chart = anychart.column();
       chart.title("Pks - LogNormal");
       chart.dataArea().background().enabled(true);
@@ -298,18 +364,13 @@
       dados = [];
       array = [];
       for(var x = 0; x < movimentoA.length ; x++){
-        array = [`${x}`,movimentoA[x]];
+        array = [(movimentoAS[x]-0.001),movimentoA[x]];
         dados.push(array);
       }
       
       chart = anychart.column();
       chart.title("Movimento Artificial");
-      var xScale = chart.xScale();
-      console.log(movimentoAS);
-      console.log(movimentoAS[2]);
-      xScale.minimum(Number(movimentoAS[0]));
-      xScale.maximum(Number(movimentoAS[1]));
-      xScale.ticks().interval(Number(movimentoAS[2]));
+      chart.xScale().values(movimentoAS);
       chart.dataArea().background().enabled(true);
       chart.dataArea().background().fill("#665B59 0.2");
       series = chart.column(dados);
@@ -319,16 +380,13 @@
       dados = [];
       array = [];
       for(var x = 0; x < correcaoA.length ; x++){
-        array = [`${x}`,correcaoA[x]];
+        array = [(correcaoAS[x]-0.001),correcaoA[x]];
         dados.push(array);
       }
       
       chart = anychart.column();
       chart.title("Correção Artificial");
-      var xScale = chart.xScale();
-      xScale.minimum(Number(correcaoAS[0]));
-      xScale.maximum(Number(correcaoAS[1]));
-      xScale.ticks().interval(Number(correcaoAS[2]));
+      chart.xScale().values(correcaoAS);
       chart.dataArea().background().enabled(true);
       chart.dataArea().background().fill("#665B59 0.2");
       series = chart.column(dados);
@@ -338,16 +396,13 @@
       dados = [];
       array = [];
       for(var x = 0; x < movimento.length ; x++){
-        array = [`${x}`,movimento[x]];
+        array = [(movimentoS[x]-0.001),movimento[x]];
         dados.push(array);
       }
       
       chart = anychart.column();
       chart.title("Movimento Real");
-      var xScale = chart.xScale();
-      xScale.minimum(Number(movimentoS[0]));
-      xScale.maximum(Number(movimentoS[1]));
-      xScale.ticks().interval(Number(movimentoS[2]));
+      chart.xScale().values(movimentoS);
       chart.dataArea().background().enabled(true);
       chart.dataArea().background().fill("#665B59 0.2");
       series = chart.column(dados);
@@ -357,16 +412,20 @@
       dados = [];
       array = [];
       for(var x = 0; x < correcao.length ; x++){
-        array = [`${x}`,correcao[x]];
+        array = [(correcaoS[x]-0.001),correcao[x]];
         dados.push(array);
       }
       
       chart = anychart.column();
       chart.title("Correção Real");
+      chart.xScale().values(correcaoS);
       var xScale = chart.xScale();
-      xScale.minimum(Number(correcaoS[0]));
-      xScale.maximum(Number(correcaoS[1]));
-      xScale.ticks().interval(Number(correcaoS[2]));
+
+      // Disable minimum alignment.
+      //xScale.alignMinimum(false);
+
+      // Disable maximum alignment.
+      //xScale.alignMaximum(false);
       chart.dataArea().background().enabled(true);
       chart.dataArea().background().fill("#665B59 0.2");
       series = chart.column(dados);
@@ -374,7 +433,7 @@
       chart.draw();
       
 
-    });
+    });*/
   </script>
   </body>
 </html>
