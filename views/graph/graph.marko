@@ -325,7 +325,9 @@
       stage = anychart.graphics.create("container4");
       // create a chart
       chart = anychart.line();
-      chart.xScale(anychart.scales.linear());
+      //chart.xScale(anychart.scales.linear());
+      chart.xScale(anychart.scales.ordinal());
+      chart.xScale().mode('continuous');
       dataSet = (dados);
       dataSet1 = (dados1);
       

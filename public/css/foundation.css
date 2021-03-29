@@ -35,7 +35,12 @@ html {
 }
 
 body {
-    margin: 0
+    height: 100%;
+    margin: 0;
+}
+
+footer{
+	bottom: 0px;
 }
 
 h1 {
@@ -7690,7 +7695,8 @@ html.is-reveal-open body {
     -ms-flex-pack: justify;
     justify-content: space-between;
     color: #fff;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
+    bottom: 0;
 }
 
 .social-footer li {
@@ -7824,6 +7830,7 @@ input[type="checkbox"]:checked:after {
 .axis--x path {
     display: none;
 }
-.svg-bg{
+
+.svg-bg {
     background-color: #665B59 0.2;
 }

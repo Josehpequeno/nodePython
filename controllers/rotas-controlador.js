@@ -1,6 +1,7 @@
 const templates = require('../views/index');
 require('marko/node-require').install();
 let { PythonShell } = require('python-shell');
+const { stringify } = require('querystring');
 
 function python(resp, dataToSend) {
     let pyshell = new PythonShell('calculoPk.py');
@@ -139,24 +140,30 @@ class RotasControlador {
                     console.error(err);
                     return;
                 }
-                await neatCsv(data);
+                var column = 0;
+                var csv = await neatCsv(data);
+                //csv = csv.replace(/^\ufeff/, '');
+                //console.log(csv);
                 var csvData = [];
-                const parse = require('csv-parse');
-                fs.createReadStream('dados.csv')
-                    .pipe(parse({ delimiter: ' ' || ';' }))
-                    .on('data', function (csvrow) {
-                        //console.log(!isNaN(csvrow));
-                        //do something with csvrow
-                        if (!isNaN(csvrow)) {
-                            csvData.push(String(csvrow).replace(/,/, '.'));
-                        }
-                    })
-                    .on('end', function () {
-                        //do something with csvData
-                        //console.log(csvData);
-                        return python(resp, csvData);
-                    });
-
+                var csvrow;
+                for (var row in csv) {
+                    csvrow = String(csv[row]["Último"]).replace(/,/, '.');
+                    //console.log(csvrow);
+                    //console.log(csv[row]["Último"]);
+                    console.log(csvrow);
+                    if (csvrow == undefined || csvrow == "undefined") {
+                        csvrow = String(csv[row]["Fechamento"]).replace(/,/, '.');
+                    }
+                    //csvrow = String(csv[row]).replace(/^\ufeff/, '');
+                    //do something with csvrow
+                    csvrow = Number(csvrow);
+                    if (!isNaN(csvrow)) {
+                        csvData.push(csvrow);
+                        //csvData.unshift(csvrow);
+                    }
+                }
+                console.log("CsvData { ", csvData, "}");
+                return python(resp, csvData);
             });
         };
     }
