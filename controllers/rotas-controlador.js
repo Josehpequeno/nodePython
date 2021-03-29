@@ -29,17 +29,17 @@ function python(resp, dataToSend) {
         data = message["Pks"];
         sar = message["SARParabolic"];
         entrada = message["Entrada"];
-        pontosArtificiais = message["PontoArtificial"]; 
+        pontosArtificiais = message["PontoArtificial"];
         movimentoRand = message["MovimentoArtificialRandAcumulado"];
         correcaoRand = message["CorrecaoArtificialRandAcumulado"];
-        correcaoA = message["MovimentoArtificial"];
-        movimentoA = message["CorrecaoArtificial"];
-        correcao = message["Movimento"];
-        movimento = message["Correcao"];
-        correcaoAS = message["MovimentoArtificialS"];
-        movimentoAS = message["CorrecaoArtificialS"];
-        correcaoS = message["MovimentoS"];
-        movimentoS = message["CorrecaoS"];
+        correcaoA = message["CorrecaoArtificial"];
+        movimentoA = message["MovimentoArtificial"];
+        correcao = message["Correcao"];
+        movimento = message["Movimento"];
+        correcaoAS = message["CorrecaoArtificialS"];
+        movimentoAS = message["MovimentoArtificialS"];
+        correcaoS = message["CorrecaoS"];
+        movimentoS = message["MovimentoS"];
     });
     // end the input stream and allow the process to exit
     pyshell.end(function (err, code, signal) {

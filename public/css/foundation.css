@@ -7818,10 +7818,12 @@ input[type="checkbox"]:checked:after {
 }
 
 .bar:hover {
-    fill: brown;
+    fill: #00140c;
 }
 
 .axis--x path {
     display: none;
-    font-size: small;
+}
+.svg-bg{
+    background-color: #665B59 0.2;
 }
