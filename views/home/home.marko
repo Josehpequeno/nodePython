@@ -36,6 +36,9 @@
       <br/>
       <form action="/graph" method="post">
         <div class="grid-container">
+          <if(data.msg)>
+            <div class="label alert">${data.msg}</div>
+          </if>
           <h5>Escreva os valores de acordo com o seu separador</h5>
           <div class="small-12 column">
             <div class="form-floating-label">

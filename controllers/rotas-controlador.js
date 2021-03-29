@@ -154,16 +154,29 @@ class RotasControlador {
                     if (csvrow == undefined || csvrow == "undefined") {
                         csvrow = String(csv[row]["Fechamento"]).replace(/,/, '.');
                     }
+                    if (csvrow == undefined || csvrow == "undefined") {
+                        csvrow = String(csv[row]["Valor"]).replace(/,/, '.');
+                    }
+                    if (csvrow == undefined || csvrow == "undefined") {
+                        csvrow = String(csv[row]["Preço"]).replace(/,/, '.');
+                    }
                     //csvrow = String(csv[row]).replace(/^\ufeff/, '');
                     //do something with csvrow
                     csvrow = Number(csvrow);
                     if (!isNaN(csvrow)) {
-                        csvData.push(csvrow);
-                        //csvData.unshift(csvrow);
+                        //csvData.push(csvrow);
+                        csvData.unshift(csvrow);
                     }
                 }
                 console.log("CsvData { ", csvData, "}");
-                return python(resp, csvData);
+                if (csvData.length == 0) {
+                    const msg = "Erro de leitura de arquivo. Por favor tente novamente."
+                    return resp.marko(templates.home, {
+                        msg: msg
+                    });
+                } else {
+                    return python(resp, csvData);
+                }
             });
         };
     }

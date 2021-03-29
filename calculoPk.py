@@ -95,7 +95,7 @@ PontoArtificial = []
 
 df = pd.DataFrame(arquivo, columns=['Fechamento'])
 dfOrdenados = df['Fechamento']
-Tamanho = 500
+Tamanho = len(dfOrdenados)
 if Tamanho > len(dfOrdenados):
     Tamanho = len(dfOrdenados)
 # Somente os preços de fechamento de 0 até Tamanho

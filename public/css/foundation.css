@@ -39,8 +39,8 @@ body {
     margin: 0;
 }
 
-footer{
-	bottom: 0px;
+footer {
+    bottom: 0px;
 }
 
 h1 {
@@ -4327,6 +4327,15 @@ table.unstriped tbody tr {
     }
     table.stack td {
         border-top: 0
+    }
+    body * {
+        visibility: hidden;
+    }
+    #printable, #printable * {
+        visibility: visible;
+    }
+    #noPrint{
+        display:none;
     }
 }
 
