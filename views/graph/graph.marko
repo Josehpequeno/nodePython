@@ -21,7 +21,7 @@
     <div id="content" class="hidden">
       <nav class="top-bar topbar-responsive">
         <div class="top-bar-title">
-          <a class="topbar-responsive-logo" href="/">
+          <a id="noPrint" class="topbar-responsive-logo" href="/">
             <div class="menu-icon-svg">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 442 442">
                 <path d="M432 383.991H58.009V10c0-5.523-4.478-10-10-10s-10 4.477-10 10v373.991H10c-5.522 0-10 4.477-10 10s4.478 10 10 10h28.009V432c0 5.523 4.478 10 10 10s10-4.477 10-10v-28.009H432c5.522 0 10-4.477 10-10s-4.478-10-10-10z"/>
@@ -34,7 +34,7 @@
         </div>
       </nav>
       <br/>
-      <div id="printable" class="grid-container">
+      <div class="grid-container">
         <input type="hidden" id="data" name="data" value=`${data.dados}`/>
         <input type="hidden" id="sar" name="sar" value=`${data.sar}`/>
         <input type="hidden" id="string" name="string" value=`${data.strings}`/>
@@ -51,14 +51,16 @@
         <input type="hidden" id="correcaoS" name="correcaoS" value=`${data.correcaoS}`/>
         <input type="hidden" id="movimentoS" name="movimentoS" value=`${data.movimentoS}`/>
         <div class="small-12 column">
-          <div id="container1" style="width: 100%; height: 600px;">
+          <div id="container1">
             <h6 style="text-align: center;">Pks - LogNormal</h6>
           </div>
-          <div style="width: 100%; height: 10px;"/>
-          <div id="container2" style="width: 100%; height: 500px;"/>
-          <div id="container3" style="width: 100%; height: 500px;"/>
-          <div id="container4" style="width: 100%; height: 500px;"/>
-          <div style="width: 100%; height: 100px;"/>
+          <div id="noPrint" style="width: 100%; height: 10px;"/>
+          <div id="container2" class="float-center align-middle" style="width:1120px; height: 500px;"/>
+          <div id="noPrint" style="width: 100%; height: 10px;"/>
+          <div id="container3" class="float-center align-middle" style="width:1120px; height: 500px;"/>
+          <div id="noPrint" style="width: 100%; height: 10px;"/>
+          <div id="container4" class="float-center align-middle" style="width:1120px; height: 500px;"/>
+          <div id="noPrint" style="width: 100%; height: 10px;"/>
           <div class="rowgraph" style="height: 500px;">
             <div class="columngraph">
               <div id="container5" style="width: 100%; height: 500px;">
@@ -101,7 +103,8 @@
         </div>
       </div>
       <br/>
-      <footer id="printable" class="social-footer">
+      <div style="width: 100%; height: 100px;"/>
+      <footer class="social-footer">
         <div class="social-footer-left">
           <p>&copy; 2021 Josehpequeno</p>
         </div>
@@ -122,7 +125,7 @@
                 <i class="fab fa-linkedin" aria-hidden="true"/>
               </a>
             </ul>
-            <ul>
+            <ul id="noPrint">
               <a href="mailto:hicarojbs21@gmail.com?subject=Site Calculo-Pk" class="transparente color5">
                 <i class="fas fa-envelope-square" aria-hidden="true"/>
               </a>
@@ -296,8 +299,8 @@
       //scale.maximum(2);
       // add a title standalone object on the chart
       chart.title("Dados e SAR");
-      chart.dataArea().background().enabled(true);
-      chart.dataArea().background().fill("#665B59 0.2");
+      //chart.dataArea().background().enabled(true);
+      //chart.dataArea().background().fill("#665B59 0.2");
       // put the chart on a stage and draw it
       chart.container("container2");
       chart.draw();
@@ -311,8 +314,8 @@
       
       var chart = anychart.line();
       chart.title("Pontos Artificiais");
-      chart.dataArea().background().enabled(true);
-      chart.dataArea().background().fill("#665B59 0.2");
+      //chart.dataArea().background().enabled(true);
+      //chart.dataArea().background().fill("#665B59 0.2");
       var series = chart.line(dados);
       series.name("Ponto artificial");
       chart.container("container3");
@@ -347,8 +350,8 @@
       //scale.maximum(2);
       // add a title standalone object on the chart
       chart.title("Acumulados Randômicos: Movimento Artificial & Correção Artificial");
-      chart.dataArea().background().enabled(true);
-      chart.dataArea().background().fill("#665B59 0.2");
+      //chart.dataArea().background().enabled(true);
+      //chart.dataArea().background().fill("#665B59 0.2");
       // put the chart on a stage and draw it
       chart.container(stage);
       chart.draw();

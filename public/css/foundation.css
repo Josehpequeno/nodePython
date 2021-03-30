@@ -4328,14 +4328,40 @@ table.unstriped tbody tr {
     table.stack td {
         border-top: 0
     }
-    body * {
-        visibility: hidden;
+}
+
+
+
+@media print {
+    table.stack thead {
+        display: none
     }
-    #printable, #printable * {
+    table.stack tfoot {
+        display: none
+    }
+    table.stack td, table.stack th, table.stack tr {
+        display: block
+    }
+    table.stack td {
+        border-top: 0
+    }
+    body .top-bar .topbar-responsive, .grid-container .grid-x .grid-padding-x, .topbar-responsive-logo {
+        /*visibility: hidden;*/
+        display: none!important;
+    }
+    .grid-container, .social-footer {
         visibility: visible;
     }
-    #noPrint{
-        display:none;
+    #container2 {
+        width: 1100px;
+        
+    }
+    /*#printable, #printable * {
+        .grid-container #content.social-footer {
+        visibility: visible;
+    }*/
+    .grid-container #noPrint, .social-footer #noPrint, .small-12 .column #noPrint {
+        display: none;
     }
 }
 

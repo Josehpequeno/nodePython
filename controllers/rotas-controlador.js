@@ -2,6 +2,7 @@ const templates = require('../views/index');
 require('marko/node-require').install();
 let { PythonShell } = require('python-shell');
 const { stringify } = require('querystring');
+const { JSONParser } = require('formidable');
 
 function python(resp, dataToSend) {
     let pyshell = new PythonShell('calculoPk.py');
@@ -141,17 +142,19 @@ class RotasControlador {
                     return;
                 }
                 var column = 0;
+                //console.log(data)
                 var csv = await neatCsv(data);
-                //csv = csv.replace(/^\ufeff/, '');
-                //console.log(csv);
                 var csvData = [];
                 var csvrow;
+                //csv = JSON.parse(String(csv));
+                //console.log(csv[0]["Ativo;Data;Hora;Abertura;Máximo;Mínimo;Fechamento;Volume;Quantidade"]);
                 for (var row in csv) {
                     csvrow = String(csv[row]["Último"]).replace(/,/, '.');
                     //console.log(csvrow);
                     //console.log(csv[row]["Último"]);
-                    console.log(csvrow);
+                    //console.log(csvrow);
                     if (csvrow == undefined || csvrow == "undefined") {
+                        //console.log(csv[row]);
                         csvrow = String(csv[row]["Fechamento"]).replace(/,/, '.');
                     }
                     if (csvrow == undefined || csvrow == "undefined") {
@@ -159,6 +162,18 @@ class RotasControlador {
                     }
                     if (csvrow == undefined || csvrow == "undefined") {
                         csvrow = String(csv[row]["Preço"]).replace(/,/, '.');
+                    }/*
+                    if (csvrow == undefined || csvrow == "undefined") {
+                        let s = String(csv[row]["Ativo;Data;Hora;Abertura;Máximo;Mínimo;Fechamento;Volume;Quantidade"]).split(";");
+                        console.log(s);
+                        csvrow = s[6].replace(/,/, '.');
+                        console.log(csvrow);
+                    }*/
+                    if (csvrow == undefined || csvrow == "undefined") {
+                        const msg = "Erro de leitura de arquivo. Por favor tente novamente com um arquivo separado por virgulas."
+                        return resp.marko(templates.home, {
+                            msg: msg
+                        });
                     }
                     //csvrow = String(csv[row]).replace(/^\ufeff/, '');
                     //do something with csvrow
